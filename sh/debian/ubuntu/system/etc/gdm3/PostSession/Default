@@ -20,7 +20,9 @@ passwd -d "$USER" ||:
 systemctl stop user@1000.service
 
 # Make sure the mountpoints are free
+set +e
 kill $(lsof -t "$HOME" /mnt) $(ps --no-headers -u "$USER" -o pid)
+set -e
 umount "$HOME"/.cache "$HOME" /mnt
 umount /dev/disk/by-partlabel/01-home ||:
 /usr/sbin/wipefs -a /dev/disk/by-partlabel/01-tmp-home

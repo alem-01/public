@@ -332,6 +332,7 @@ vim
 virtualbox
 xfsprogs
 zenity
+xdotool
 "
 # shellcheck disable=2086
 apt-get --no-install-recommends -y install $pkgs

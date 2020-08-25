@@ -6,12 +6,12 @@ set -e
 if passwd -S | grep NP
 then
     # No password set, so ask user to set one
-    gnome-terminal.real -t "⁣" —geometry=40x10 —wait — passwd
+    gnome-terminal.real -t "⁣" --geometry=40x10 --wait -- passwd
     sleep 1
 fi
 
 # launch new terminal and prompt afk phrase
-gnome-terminal.real -t "" —geometry=40x10 —wait — bash -c "echo 'Write the afk message, max: 50 sym:'; read test; echo \$test > /tmp/phrase;"
+gnome-terminal.real -t "" --geometry=40x10 --wait -- bash -c "echo 'Write the afk message, max: 50 sym:'; read test; echo \$test > /tmp/phrase;"
 
 # read phrase from file
 message=""

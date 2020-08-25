@@ -41,9 +41,9 @@ text_y=$(( y - 50 ))
 draw="text "$text_x","$text_y" '$message'"
 
 # convert image
-convert /usr/share/backgrounds/01/logo.png -resize "$x"x"$y"! -pointsize 50 -fill white -draw "$draw" /tmp/logo.png
+convert /usr/share/backgrounds/01/wallpaper.png -resize "$x"x"$y"! -pointsize 50 -fill white -draw "$draw" /tmp/wallpaper.png
 # lock
-i3lock -i /tmp/logo.png
+i3lock -i /tmp/wallpaper.png
 xdotool mousemove 100 100
  
 /usr/local/bin/lock_screen

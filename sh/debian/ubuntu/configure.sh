@@ -308,6 +308,7 @@ vim
 virtualbox
 xfsprogs
 zenity
+xdotool
 "
 apt-get -y install $pkgs
 

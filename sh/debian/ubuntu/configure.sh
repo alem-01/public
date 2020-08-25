@@ -453,39 +453,39 @@ gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
 # Create a backup file of the original theme if there isn't one.
 [ ! -f "$gdm3Resource"~ ] && cp "$gdm3Resource" "$gdm3Resource~"
 
-# Test if argument is an image file.
-# Define more variables.
 gdm3xml=$(basename "$gdm3Resource").xml
 workDir="/tmp/gdm3-theme"
 gdmBgImg=$(realpath "/usr/share/backgrounds/01/wallpaper.png")
 imgFile=$(basename "$gdmBgImg")
-# Create directories from resource list.
 for resource in `gresource list "$gdm3Resource~"`; do
-resource="${resource#\/org\/gnome\/shell\/}"
-if [ ! -d "$workDir"/"${resource%/*}" ]; then
-  mkdir -p "$workDir"/"${resource%/*}"
-fi
+    resource="${resource#\/org\/gnome\/shell\/}"
+    if [ ! -d "$workDir"/"${resource%/*}" ]; then
+        mkdir -p "$workDir"/"${resource%/*}"
+    fi
 done
+
 # Extract resources from binary file.
 for resource in `gresource list "$gdm3Resource~"`; do
-gresource extract "$gdm3Resource~" "$resource" > \
-"$workDir"/"${resource#\/org\/gnome\/shell\/}"
+    gresource extract "$gdm3Resource~" "$resource" > \
+    "$workDir"/"${resource#\/org\/gnome\/shell\/}"
 done
+
 # Copy selected image to the resources directory.
 cp "$gdmBgImg" "$workDir"/theme
 # Change gdm background to the image you submited.
 oldImg="#lockDialogGroup \{.*?\}"
 newImg="#lockDialogGroup {
-background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
-background-size: cover; }"
+    background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
+    background-size: cover; }"
 perl -i -0777 -pe "s/$oldImg/$newImg/s" "$workDir"/theme/gdm3.css
+
 # Generate gresource xml file.
 echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
 <gresource prefix="/org/gnome/shell/theme">' > "$workDir"/theme/"$gdm3xml"
 for file in `gresource list "$gdm3Resource~"`; do
-echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
->> "$workDir"/theme/"$gdm3xml"
+    echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+    >> "$workDir"/theme/"$gdm3xml"
 done
 echo "        <file>$imgFile</file>" >> "$workDir"/theme/"$gdm3xml"
 echo '    </gresource>
@@ -496,12 +496,9 @@ glib-compile-resources --sourcedir=$workDir/theme/ $workDir/theme/"$gdm3xml"
 # Move the generated binary file to the gnome-shell folder.
 mv $workDir/theme/gnome-shell-theme.gresource $gdm3Resource
 # Check if gresource was sucessfuly moved to its default folder.
-if [ "$?" -eq 0 ]; then
-# Solve a permission change issue (thanks to @huepf from github).
 chmod 644 "$gdm3Resource"
 # Remove temporary directories and files.
 rm -r "$workDir"
-
 
 cd $script_dir
 rm -rf /tmp/system

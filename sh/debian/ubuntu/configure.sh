@@ -333,6 +333,7 @@ virtualbox
 xfsprogs
 zenity
 xdotool
+libglib2.0-dev-bin
 "
 # shellcheck disable=2086
 apt-get --no-install-recommends -y install $pkgs

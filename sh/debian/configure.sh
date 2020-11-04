@@ -61,7 +61,7 @@ fi
 EOF
 
 # Basic packages
-apt-get -y install man bash-completion git ufw jq curl build-essential netcat wget psmisc liblz4-1 liblz4-tool file net-tools brotli unzip zip moreutils xauth sysfsutils rsync iperf pv tree mc screen ssh iotop whois sudo
+apt-get -y install man bash-completion git ufw jq curl build-essential netcat wget psmisc lz4 file net-tools brotli unzip zip moreutils xauth sysfsutils rsync iperf pv tree mc screen ssh iotop whois sudo
 
 # Enable time synchronization
 timedatectl set-ntp true

@@ -141,16 +141,22 @@ dpkg -i ripgrep_12.0.1_amd64.deb
 rm ripgrep_12.0.1_amd64.deb
 
 # Go
-wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
-tar -C /usr/local -xzf go1.14.4.linux-amd64.tar.gz
-rm go1.14.4.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.15.2.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+rm go1.15.2.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile
 
 # Netdata
-# bash <(curl -Ss https://my-netdata.io/kickstart-static64.sh) --no-updates --stable-channel --disable-telemetry
+bash <(curl -Ss https://my-netdata.io/kickstart-static64.sh) --no-updates --stable-channel --disable-telemetry --dont-wait
 
 # Caddy
-curl https://getcaddy.com | bash -s personal http.ipfilter
+tmpdir=$(mktemp -d)
+cd "$tmpdir"
+wget https://github.com/caddyserver/caddy/releases/download/v1.0.4/caddy_v1.0.4_linux_amd64.tar.gz
+tar -xf caddy_v1.0.4_linux_amd64.tar.gz
+mv caddy /usr/local/bin
+cd
+rm -rf "$tmpdir"
 
 # Generate SSH key
 ssh-keygen -ted25519 -f ~/.ssh/id_ed25519 -N ''

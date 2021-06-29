@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 # Configure Z01 Ubuntu
-whoami
-exit 2
 set -euo pipefail
 IFS='
 '

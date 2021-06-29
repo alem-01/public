@@ -361,6 +361,10 @@ apt-get --no-install-recommends -y install $flutterpkgs
 # Install Rust
 sudo -iu student curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- "-y"
 
+# Install Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+dpkg -i --force-depends google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
 
 # Prepare path for flutter
 cat <<EOF >> /etc/profile

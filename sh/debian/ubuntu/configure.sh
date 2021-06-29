@@ -341,8 +341,8 @@ apt-get --no-install-recommends -y install $pkgs
 
 # Java pckages
 javapkgs="
-default-jre
-default-jdk
+openjdk-8-jre
+openjdk-8-jdk
 "
 
 apt-get --no-install-recommends -y install $javapkgs
@@ -361,17 +361,58 @@ apt-get --no-install-recommends -y install $flutterpkgs
 # Install Rust
 sudo -iu student curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- "-y"
 
+
+# Prepare path for flutter
+cat <<EOF >> /etc/profile
+# JAVA X(
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
+# Android
+export ANDROID=$HOME/Android
+export PATH=$ANDROID/cmdline-tools/tools:$PATH
+export PATH=$ANDROID/cmdline-tools/tools/bin:$PATH
+export PATH=$ANDROID/platform-tools:$PATH
+# Android SDK
+export ANDROID_SDK=$HOME/$ANDROID
+export PATH=$ANDROID_SDK:$PATH
+# Flutter
+export FLUTTER=$HOME/flutter
+export PATH=$FLUTTER/bin:$PATH
+EOF
+
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
+export ANDROID=/home/student/Android
+export PATH=$ANDROID/cmdline-tools/tools:$PATH
+export PATH=$ANDROID/cmdline-tools/tools/bin:$PATH
+export PATH=$ANDROID/platform-tools:$PATH
+export ANDROID_SDK=/home/student/$ANDROID
+export PATH=$ANDROID_SDK:$PATH
+export FLUTTER=/home/student/flutter
+export PATH=$FLUTTER/bin:$PATH
+
+# Download Android tools
+wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip --output-document android.zip
+sudo -iu student mkdir -p /home/Android/cmdline-tools
+sudo -iu unzip android.zip -d /home/Android/cmdline-tools
+sudo -iu mv /home/Android/cmdline-tools/cmdline-tools /home/Android/cmdline-tools/tools
+
 # Download Flutter tar
 sudo -iu student wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_2.2.2-stable.tar.xz --output-document /home/student/flutter.tar
 # Extract Flutter
-sudo -iu student tar -C /home/student/development -xf /home/student/flutter.tar
-# Update $PATH
-sudo -iu student echo 'export PATH="$PATH:/home/student/development/flutter/bin' >> /home/student/.bashrc
-# 
+sudo -iu student tar -C /home/student/ -xf /home/student/flutter.tar
+
 rm /home/student/flutter.tar
 
-# Set android licenses
-sudo -iu student /home/student/development/flutter/bin/flutter doctor --android-licenses
+sudo -iu student yes | sdkmanager --sdk_root=${ANDROID} tools
+sudo -iu student sdkmanager "system-images;android-29;google_apis;x86_64"
+sudo -iu student sdkmanager "platforms;android-29"
+sudo -iu student sdkmanager "platform-tools"
+sudo -iu student sdkmanager "patcher;v4"
+sudo -iu student sdkmanager "emulator"
+sudo -iu student sdkmanager "build-tools;29.0.2"
+sudo -iu student yes | sdkmanager --licenses
+sudo -iu student flutter config --android-sdk /home/student/Android
+sudo -iu student flutter doctor
+sudo -iu student avdmanager -s create avd -n stand -k "system-images;android-29;google_apis;x86_64" -d 5
 
 # Disable services
 services="

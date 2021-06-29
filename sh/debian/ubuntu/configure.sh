@@ -335,8 +335,29 @@ zenity
 xdotool
 libglib2.0-dev-bin
 "
+
 # shellcheck disable=2086
 apt-get --no-install-recommends -y install $pkgs
+
+
+javapkgs="
+default-jre
+default-jdk
+"
+
+apt-get --no-install-recommends -y install $javapkgs
+
+
+flutterpkgs="
+clang
+cmake
+ninja-build
+pkg-config
+libgtk-3-dev
+"
+
+apt-get --no-install-recommends -y install $flutterpkgs
+
 
 # Disable services
 services="
@@ -441,6 +462,7 @@ go mod download
 go build -o /usr/local/bin/format
 
 cd "$script_dir"
+
 # Prepare default login screen background
 # Autor: Thiago Silva
 # Contact: thiagos.dasilva@gmail.com

@@ -339,7 +339,7 @@ libglib2.0-dev-bin
 # shellcheck disable=2086
 apt-get --no-install-recommends -y install $pkgs
 
-
+# Java pckages
 javapkgs="
 default-jre
 default-jdk
@@ -347,7 +347,7 @@ default-jdk
 
 apt-get --no-install-recommends -y install $javapkgs
 
-
+# Flutter additional packages
 flutterpkgs="
 clang
 cmake
@@ -358,6 +358,18 @@ libgtk-3-dev
 
 apt-get --no-install-recommends -y install $flutterpkgs
 
+# Install Rust
+sudo -iu student curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- "-y"
+
+# Download Flutter tar
+sudo -iu student wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_2.2.2-stable.tar.xz --output-document flutter.tar
+# Extract Flutter
+sudo -iu student tar -C /home/student/development -xf flutter.tar
+# Update $PATH
+sudo -iu student echo 'export PATH="$PATH:/home/student/development/flutter/bin' >> /home/student/.bashrc
+
+# Set android licenses
+sudo -iu student /home/student/development/flutter/bin/flutter doctor --android-licenses
 
 # Disable services
 services="

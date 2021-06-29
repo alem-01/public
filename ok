@@ -1,0 +1,13 @@
+# JAVA X(
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
+# Android
+export ANDROID=$HOME/Android
+export PATH=$ANDROID/cmdline-tools/tools:$PATH
+export PATH=$ANDROID/cmdline-tools/tools/bin:$PATH
+export PATH=$ANDROID/platform-tools:$PATH
+# Android SDK
+export ANDROID_SDK=$HOME/$ANDROID
+export PATH=$ANDROID_SDK:$PATH
+# Flutter
+export FLUTTER=$HOME/flutter
+export PATH=$FLUTTER/bin:$PATH

@@ -464,6 +464,9 @@ sed -i 's/ obscure / minlen=1 /g' /etc/pam.d/common-password
 # Remove splash screen (plymouth)
 sed -i 's/quiet splash/quiet/g' /etc/default/grub
 
+# Disable Wayland (solves slow navbar issue)
+sed -i -e 's/#WaylandEnable/WaylandEnable/g' /etc/gdm3/custom.conf
+
 update-initramfs -u
 update-grub
 
